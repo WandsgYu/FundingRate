@@ -1,0 +1,62 @@
+body,
+html {
+       margin: 0;
+       padding: 0;
+       height: 100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background-color: #121212;
+       font-family: "Arial", sans-serif;
+}
+
+#funding-rate-summary {
+       width: 90vw;
+       max-width: 1400px;
+}
+
+.summary-grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr 1fr 1fr;
+       gap: 20px 15px;
+       color: #fff;
+       text-align: center;
+}
+
+.grid-header {
+       color: #aaa;
+       font-size: 2.5vw;
+       font-weight: bold;
+       padding-bottom: 15px;
+}
+
+.grid-cell {
+       font-size: 4vw;
+       font-weight: bold;
+       padding: 10px 5px;
+       background-color: #1e1e1e;
+       border-radius: 10px;
+       min-height: 5vw;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+}
+
+.rate-positive {
+       color: #00c853;
+}
+
+.rate-negative {
+       color: #f44336;
+}
+
+@media (max-width: 768px) {
+       .grid-header {
+              font-size: 4vw;
+       }
+
+       .grid-cell {
+              font-size: 5vw;
+              min-height: 7vw;
+       }
+}
