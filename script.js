@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const apiUrl = "https://api.bitget.com/api/v2/mix/market/tickers?productType=USDT-FUTURES";
+  let updateTimeoutId = null;
+  let currentInterval = 10000;
 
   // 更新日期和时间
   function updateDateTime() {
@@ -27,6 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // 每秒更新一次时间
   setInterval(updateDateTime, 1000); // 改为1000毫秒(1秒)
   updateDateTime(); // 初始化显示
+
+  // 更新时间
+  function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString("zh-CN", { hour12: false });
+    const timeElement = document.getElementById("current-time");
+    if (timeElement) timeElement.textContent = timeString;
+  }
+
+  setInterval(updateTime, 1000);
+  updateTime();
 
   function renderSummary(coins) {
     const sortedByFundingRate = coins
@@ -82,9 +95,34 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error updating prices:", error);
     } finally {
       // 无论成功失败都继续轮询
-      setTimeout(updatePrices, 10000);
+      if (updateTimeoutId) {
+        clearTimeout(updateTimeoutId);
+      }
+      updateTimeoutId = setTimeout(updatePrices, currentInterval);
     }
   }
 
+  function setupIntervalControls() {
+    const intervalInput = document.getElementById('interval-input');
+    const intervalButton = document.getElementById('interval-button');
+
+    intervalInput.value = currentInterval;
+
+    intervalButton.addEventListener('click', () => {
+      const newInterval = parseInt(intervalInput.value, 10);
+      if (!isNaN(newInterval) && newInterval >= 1000) { // 最小间隔1秒
+        currentInterval = newInterval;
+        if (updateTimeoutId) {
+          clearTimeout(updateTimeoutId);
+        }
+        updatePrices(); // 立即执行一次
+      } else {
+        alert('请输入一个大于或等于1000的有效毫秒数。');
+        intervalInput.value = currentInterval;
+      }
+    });
+  }
+
   updatePrices();
+  setupIntervalControls();
 }); 
