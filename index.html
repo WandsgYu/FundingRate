@@ -13,8 +13,14 @@
   </head>
 
   <body>
-    <div class="footer"></div>
+    <div id="current-time"></div>
     <div id="funding-rate-summary"></div>
+
+    <div class="interval-settings">
+      <input type="number" id="interval-input" placeholder="刷新间隔(ms)" value="10000">
+      <button id="interval-button">设置</button>
+    </div>
+
     <script src="script.js"></script>
     <!-- Code injected by live-server -->
     <script>
